@@ -1,0 +1,2 @@
+2018061302 - initial version
+2018061303 - implement hmac algorithm instead of sha1 for cookie value
