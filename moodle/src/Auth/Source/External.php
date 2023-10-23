@@ -185,7 +185,7 @@ class External extends Auth\Source {
         return NULL;
     }
 
-    public function logout (&$state) {
+    public function logout (array &$state) : void {
         if (!session_id()) {
             session_start();
         }
