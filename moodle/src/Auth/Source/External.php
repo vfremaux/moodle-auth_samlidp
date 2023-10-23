@@ -87,7 +87,7 @@ class External extends Auth\Source {
             $return_to = Module::getModuleURL('moodle/resume.php', array('State' => $state_id));
             $auth_page = $this->config['login_url'] . '?ReturnTo=' . $return_to;
             $httpUtils = new Utils\HTTP();
-            $httpUtils->redirect($auth_page, array('ReturnTo' => $return_to));
+            $httpUtils->redirectTrustedURL($auth_page, array('ReturnTo' => $return_to));
         }
     }
 
@@ -198,12 +198,15 @@ class External extends Auth\Source {
         session_destroy();
 
         $logout_url = $this->config['logout_url'];
+        $params = [];
         if (!empty($state['ReturnTo'])) {
-            $logout_url .= '?ReturnTo=' . $state['ReturnTo'];
+            $params = [
+                'ReturnTo' => $state['ReturnTo']
+            ];
         }
 
         $httpUtils = new Utils\HTTP();
-        $httpUtils->redirect($logout_url);
+        $httpUtils->redirectTrustedURL($logout_url, $params);
         die();
     }
 }
