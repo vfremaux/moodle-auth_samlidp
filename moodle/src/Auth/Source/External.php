@@ -98,8 +98,8 @@ class sspmod_moodle_Auth_Source_External extends SimpleSAML_Auth_Source {
 
     private function getUser() {
         $uid = 0;
-        if (isset($_COOKIE{$this->config['cookie_name']}) && $_COOKIE{$this->config['cookie_name']}) {
-            $str_cookie = $_COOKIE{$this->config['cookie_name']};
+        if (isset($_COOKIE[$this->config['cookie_name']]) && $_COOKIE[$this->config['cookie_name']]) {
+            $str_cookie = $_COOKIE[$this->config['cookie_name']];
             # cookie created by: "setcookie($cookieName{'cookie_name'}, hash_hmac('sha1', $salt.$account->uid, $salt).':'.$uid, 0, $sspConfig->getValue('session.cookie.path'));"
             # in auth/samlidp/auth.php in Moodle
             $arr_cookie = explode(':', $str_cookie);
@@ -117,7 +117,7 @@ class sspmod_moodle_Auth_Source_External extends SimpleSAML_Auth_Source {
         }
 
         # our cookie must be removed here
-        if (isset($_COOKIE{$this->config['cookie_name']})) {
+        if (isset($_COOKIE[$this->config['cookie_name']])) {
             setcookie($this->config['cookie_name'], "", time() - 3600, $this->config['cookie_path']);
         }
 
