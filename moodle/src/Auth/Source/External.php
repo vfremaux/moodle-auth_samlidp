@@ -45,12 +45,12 @@ class sspmod_moodle_Auth_Source_External extends SimpleSAML_Auth_Source {
         assert(is_array($config));
 
         parent::__construct($info, $config);
-        if (!isset($config{'cookie_name'})) {
+        if (!isset($config['cookie_name'])) {
             throw new SimpleSAML_Error_Exception('Misconfiguration in authsources');    # in the moodle part in config/authsources.php there must be 'cookie_name' setting
         }
         $ssp_config = SimpleSAML_Configuration::getInstance();
-        $config{'cookie_path'} = $ssp_config->getValue('session.cookie.path');
-        $config{'cookie_salt'} = $ssp_config->getValue('secretsalt');
+        $config['cookie_path'] = $ssp_config->getValue('session.cookie.path');
+        $config['cookie_salt'] = $ssp_config->getValue('secretsalt');
         $this->config = $config;
     }
 
