@@ -65,7 +65,7 @@ class sspmod_moodle_Auth_Source_External extends SimpleSAML_Auth_Source {
             $state['moodle:AuthID'] = $this->authId;
             $state_id = SimpleSAML_Auth_State::saveState($state, self::STATE_IDENT);
             $return_to = SimpleSAML_Module::getModuleURL('moodle/resume.php', array('State' => $state_id));
-            $auth_page = $this->config{'login_url'} . '?ReturnTo=' . $return_to;
+            $auth_page = $this->config['login_url'] . '?ReturnTo=' . $return_to;
             SimpleSAML_Utilities::redirect($auth_page, array('ReturnTo' => $return_to));
         }
     }
@@ -98,8 +98,8 @@ class sspmod_moodle_Auth_Source_External extends SimpleSAML_Auth_Source {
 
     private function getUser() {
         $uid = 0;
-        if (isset($_COOKIE{$this->config{'cookie_name'}}) && $_COOKIE{$this->config{'cookie_name'}}) {
-            $str_cookie = $_COOKIE{$this->config{'cookie_name'}};
+        if (isset($_COOKIE{$this->config['cookie_name']}) && $_COOKIE{$this->config['cookie_name']}) {
+            $str_cookie = $_COOKIE{$this->config['cookie_name']};
             # cookie created by: "setcookie($cookieName{'cookie_name'}, hash_hmac('sha1', $salt.$account->uid, $salt).':'.$uid, 0, $sspConfig->getValue('session.cookie.path'));"
             # in auth/samlidp/auth.php in Moodle
             $arr_cookie = explode(':', $str_cookie);
@@ -108,7 +108,7 @@ class sspmod_moodle_Auth_Source_External extends SimpleSAML_Auth_Source {
                 && (isset($arr_cookie[1]) && $arr_cookie[1])
             ) {
                 # make sure no one manipulated the hash or the uid in the cookie before we trust the uid
-                if (hash_hmac('sha1', $this->config{'cookie_salt'}.$arr_cookie[1], $this->config{'cookie_salt'}) == $arr_cookie[0]) {
+                if (hash_hmac('sha1', $this->config['cookie_salt'].$arr_cookie[1], $this->config['cookie_salt']) == $arr_cookie[0]) {
                     $uid = (int)$arr_cookie[1];
                 } else {
                     throw new SimpleSAML_Error_Exception('Cookie hash invalid.');
@@ -117,8 +117,8 @@ class sspmod_moodle_Auth_Source_External extends SimpleSAML_Auth_Source {
         }
 
         # our cookie must be removed here
-        if (isset($_COOKIE{$this->config{'cookie_name'}})) {
-            setcookie($this->config{'cookie_name'}, "", time() - 3600, $this->config{'cookie_path'});
+        if (isset($_COOKIE{$this->config['cookie_name']})) {
+            setcookie($this->config['cookie_name'], "", time() - 3600, $this->config['cookie_path']);
         }
 
         if ($uid) {
@@ -126,8 +126,8 @@ class sspmod_moodle_Auth_Source_External extends SimpleSAML_Auth_Source {
             global $CFG, $DB;
             define('CLI_SCRIPT', true);
             define('WEB_CRON_EMULATED_CLI', 'defined');
-            $configphp = $this->config{'moodle_coderoot'}."/config.php";
-            $userlib = $this->config{'moodle_coderoot'}."/user/profile/lib.php";
+            $configphp = $this->config['moodle_coderoot']."/config.php";
+            $userlib = $this->config['moodle_coderoot']."/user/profile/lib.php";
             if (file_exists($configphp)) {
                 require_once($configphp);
             } else {
@@ -155,7 +155,7 @@ class sspmod_moodle_Auth_Source_External extends SimpleSAML_Auth_Source {
                     $userattr{$param} = array($value);
                 }
                 foreach ($profile_fields as $param => $value) {
-                    $userattr{'profile_field_'.$param} = array($value);
+                    $userattr['profile_field_'.$param] = array($value);
                 }
             }
             return $userattr;
@@ -170,12 +170,12 @@ class sspmod_moodle_Auth_Source_External extends SimpleSAML_Auth_Source {
             session_start();
         }
 
-        if (isset($_COOKIE{$this->config{'cookie_name'}})) {
-            setcookie($this->config{'cookie_name'}, "", time() - 3600, $this->config{'cookie_path'});
+        if (isset($_COOKIE[$this->config['cookie_name']])) {
+            setcookie($this->config['cookie_name'], "", time() - 3600, $this->config['cookie_path']);
         }
         session_destroy();
 
-        $logout_url = $this->config{'logout_url'};
+        $logout_url = $this->config['logout_url'];
         if (!empty($state['ReturnTo'])) {
             $logout_url .= '?ReturnTo=' . $state['ReturnTo'];
         }
