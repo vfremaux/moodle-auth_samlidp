@@ -44,6 +44,7 @@ use SimpleSAML\Assert\Assert;
 use SimpleSAML\Auth;
 use SimpleSAML\Error;
 use SimpleSAML\Module;
+use SimpleSAML\Configuration;
 use SimpleSAML\Utils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session as SymfonySession;
