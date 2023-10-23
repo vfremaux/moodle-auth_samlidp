@@ -86,7 +86,8 @@ class External extends Auth\Source {
             $state_id = Auth\State::saveState($state, self::STATE_IDENT);
             $return_to = Module::getModuleURL('moodle/resume.php', array('State' => $state_id));
             $auth_page = $this->config['login_url'] . '?ReturnTo=' . $return_to;
-            Utils::redirect($auth_page, array('ReturnTo' => $return_to));
+            $httpUtils = new Utils\HTTP();
+            $httpUtils->redirect($auth_page, array('ReturnTo' => $return_to));
         }
     }
 
@@ -201,7 +202,8 @@ class External extends Auth\Source {
             $logout_url .= '?ReturnTo=' . $state['ReturnTo'];
         }
 
-        Utils::redirect($logout_url);
+        $httpUtils = new Utils\HTTP();
+        $httpUtils->redirect($logout_url);
         die();
     }
 }
